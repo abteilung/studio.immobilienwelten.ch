@@ -9,6 +9,10 @@ services:
         ports:
             - '93:80'
         restart: always
+        depends_on:
+            - directus
+        networks:
+            - entla24network
 
     database:
         container_name: entla24-database
@@ -21,10 +25,14 @@ services:
             POSTGRES_DB: 'directus'
         ports:
             - 5103:5432
+        networks:
+            - entla24network
 
     cache:
         container_name: entla24-cache
         image: redis:7
+        networks:
+            - entla24network
 
     directus:
         ports:
@@ -78,8 +86,11 @@ services:
 
             # Make sure to set this in production
             # (see https://docs.directus.io/self-hosted/config-options#general)
-            PUBLIC_URL: 'https://studio.entla.ch'
+            PUBLIC_URL: 'https://mgowg8c.kommando.info/'
             CORS_ENABLED: true
+
+        networks:
+            - entla24network
 
         # Environment variables can also be defined in a file (for example `.env`):
         # env_file:
