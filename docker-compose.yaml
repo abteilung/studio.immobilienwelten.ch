@@ -7,7 +7,7 @@ services:
             context: .
             dockerfile: Dockerfile.nginx
         ports:
-            - '90:80'
+            - '93:80'
         restart: always
 
     database:
@@ -20,7 +20,7 @@ services:
             POSTGRES_PASSWORD: 'directus'
             POSTGRES_DB: 'directus'
         ports:
-            - 5102:5432
+            - 5103:5432
 
     cache:
         container_name: entla24-cache
@@ -28,7 +28,7 @@ services:
 
     directus:
         ports:
-            - 8057:8055
+            - 8059:8055
         container_name: entla24-directus
         image: directus/directus:10.11.2
         volumes:
