@@ -1,0 +1,86 @@
+version: '3'
+services:
+    nginx:
+        container_name: entla24-nginx
+        image: nginx:1.21
+        build:
+            context: .
+            dockerfile: Dockerfile.nginx
+        ports:
+            - '90:80'
+        restart: always
+
+    database:
+        container_name: entla24-database
+        image: postgis/postgis:13-master
+        volumes:
+            - ./data/database:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: 'directus'
+            POSTGRES_PASSWORD: 'directus'
+            POSTGRES_DB: 'directus'
+        ports:
+            - 5102:5432
+
+    cache:
+        container_name: entla24-cache
+        image: redis:7
+
+    directus:
+        ports:
+            - 8057:8055
+        container_name: entla24-directus
+        image: directus/directus:10.11.2
+        volumes:
+            - ./uploads:/directus/uploads
+            - ./extensions:/directus/extensions
+        depends_on:
+            - cache
+            - database
+        environment:
+            KEY: '5d861b25-5699-a15e-93aa-c40b1922530e'
+            SECRET: '6187b164-b55b-c252-a1cd-c85e263022c4'
+
+            # Activate websockets
+            WEBSOCKETS_ENABLED: 'true'
+
+            # Get vrom environment variable
+            EMAIL_TRANSPORT: ${EMAIL_TRANSPORT}
+            EMAIL_SMTP_HOST: ${EMAIL_SMTP_HOST}
+            EMAIL_SMTP_PORT: ${EMAIL_SMTP_PORT}
+            EMAIL_SMTP_USER: ${EMAIL_SMTP_USER}
+            EMAIL_SMTP_PASSWORD: ${EMAIL_SMTP_PASSWORD}
+            EMAIL_SMTP_SECURE: ${EMAIL_SMTP_SECURE}
+            EMAIL_SMTP_IGNORE_TLS: ${EMAIL_SMTP_IGNORE_TLS}
+            EMAIL_VERIFY_SETUP: ${EMAIL_VERIFY_SETUP}
+            EMAIL_SMTP_POOL: ${EMAIL_SMTP_POOL}
+
+            # Other Settinsg
+            EMAIL_FROM: ${EMAIL_FROM}
+
+            DB_CLIENT: 'pg'
+            DB_HOST: 'database'
+            DB_PORT: '5432'
+            DB_DATABASE: 'directus'
+            DB_USER: 'directus'
+            DB_PASSWORD: 'directus'
+
+            CACHE_ENABLED: true
+            # Clear Cache if data is altered or added
+            CACHE_AUTO_PURGE: true
+            CACHE_TTL: '15m'
+            CACHE_STORE: 'redis'
+            ASSETS_CACHE_TTL: '300d'
+            REDIS: 'redis://cache:6379'
+
+            ADMIN_EMAIL: ${ADMIN_EMAIL}
+            ADMIN_PASSWORD: ${ADMIN_PASS}
+
+            # Make sure to set this in production
+            # (see https://docs.directus.io/self-hosted/config-options#general)
+            PUBLIC_URL: 'https://studio.entla.ch'
+            CORS_ENABLED: true
+
+        # Environment variables can also be defined in a file (for example `.env`):
+        # env_file:
+        #     - .env
