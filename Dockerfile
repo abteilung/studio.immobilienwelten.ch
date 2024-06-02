@@ -10,7 +10,7 @@ RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" > /etc/timezone
 
 # Change ownership of the /uploads directory
-RUN chown -R node:node /directus/uploads
+RUN chown -R node:node /directus /directus/database /directus/extensions /directus/uploads
 
 # Switch back to the original user
 USER node
