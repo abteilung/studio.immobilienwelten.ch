@@ -32,6 +32,9 @@ services:
         ports:
             - 8059:8055
         container_name: entla24-directus
+        build:
+            context: .
+            dockerfile: Dockerfile
         image: directus/directus:10.11.2
         volumes:
             - ./uploads:/directus/uploads
