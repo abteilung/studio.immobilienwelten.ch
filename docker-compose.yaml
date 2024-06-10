@@ -84,12 +84,6 @@ services:
             PUBLIC_URL: ${PUBLIC_URL}
             CORS_ENABLED: true
 
-        command: >
-            sh -c "
-            chown -R node:node /directus/extensions /directus/uploads &&
-            exec directus start
-            "
-
         # Environment variables can also be defined in a file (for example `.env`):
         # env_file:
         #     - .env
