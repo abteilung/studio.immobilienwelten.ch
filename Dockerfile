@@ -14,12 +14,16 @@ RUN mkdir -p /directus /directus/database /directus/extensions /directus/uploads
     chmod -R 775 /directus /directus/database /directus/extensions /directus/uploads && \
     chown -R node:node /directus /directus/database /directus/extensions /directus/uploads
 
+    
 # Switch back to the original user
 USER node
 
-
 # Switch to root user to copy init script and set permissions
 USER root
+
+# Copy the initialization script
+COPY init-db.sh /docker-entrypoint-initdb.d/
+COPY entrypoint.sh /entrypoint.sh
 
 # Copy the initialization script
 COPY init-db.sh /docker-entrypoint-initdb.d/
