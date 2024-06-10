@@ -1,14 +1,14 @@
 version: '3'
 services:
-    proxy:
-        container_name: immow24-nginx
-        image: nginx:1.21
-        build:
-            context: .
-            dockerfile: Dockerfile.nginx
-        ports:
-            - '94:80'
-        restart: always
+    # proxy:
+    #     container_name: immow24-nginx
+    #     image: nginx:1.21
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile.nginx
+    #     ports:
+    #         - '94:80'
+    #     restart: always
 
     database:
         container_name: immow24-database
