@@ -17,3 +17,6 @@ RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" 
     
 # Switch back to the original user
 USER node
+
+# Remove File from the image
+RUN rm -rf /entrypoint.sh
