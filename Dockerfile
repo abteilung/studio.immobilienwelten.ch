@@ -10,9 +10,9 @@ RUN apk add --no-cache tzdata
 RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" > /etc/timezone
 
 # Ensure directories exist and have correct permissions
-RUN mkdir -p /directus /directus/database /directus/extensions /directus/uploads && \
-    chmod -R 775 /directus /directus/database /directus/extensions /directus/uploads && \
-    chown -R node:node /directus /directus/database /directus/extensions /directus/uploads
+# RUN mkdir -p /directus /directus/database /directus/extensions /directus/uploads && \
+#     chmod -R 775 /directus /directus/database /directus/extensions /directus/uploads && \
+#     chown -R node:node /directus /directus/database /directus/extensions /directus/uploads
 
     
 # Switch back to the original user
@@ -23,7 +23,6 @@ USER root
 
 # Copy the initialization script
 COPY init-db.sh /docker-entrypoint-initdb.d/
-COPY entrypoint.sh /entrypoint.sh
 
 # Change permissions for the script
 RUN chmod 755 /docker-entrypoint-initdb.d/init-db.sh
@@ -33,6 +32,3 @@ EXPOSE 5432
 
 # Switch back to the original user
 USER node
-
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["directus", "start"]
