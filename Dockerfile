@@ -25,9 +25,6 @@ USER root
 COPY init-db.sh /docker-entrypoint-initdb.d/
 COPY entrypoint.sh /entrypoint.sh
 
-# Copy the initialization script
-COPY init-db.sh /docker-entrypoint-initdb.d/
-
 # Change permissions for the script
 RUN chmod 755 /docker-entrypoint-initdb.d/init-db.sh
 
@@ -36,3 +33,6 @@ EXPOSE 5432
 
 # Switch back to the original user
 USER node
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["directus", "start"]
