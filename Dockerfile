@@ -14,7 +14,5 @@ RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" 
 #     chmod -R 775 /directus /directus/database /directus/extensions /directus/uploads && \
 #     chown -R node:node /directus /directus/database /directus/extensions /directus/uploads
 
-    
 # Switch back to the original user
 USER node
-
