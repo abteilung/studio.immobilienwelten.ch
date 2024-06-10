@@ -9,13 +9,11 @@ RUN apk add --no-cache tzdata
 # Set the timezone
 RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" > /etc/timezone
 
-# Ensure directories exist
-RUN mkdir -p /directus/extensions /directus/uploads
-
 # Switch back to the original user
 USER node
 
-# Set permissions
-RUN chmod -R 775 /directus/extensions /directus/uploads
-RUN chown -R node:node /directus/extensions /directus/uploads
+# Ensure directories exist and have correct permissions
+RUN mkdir -p /directus /directus/extensions /directus/uploads && \
+    chmod -R 775 /directus /directus/extensions /directus/uploads && \
+    chown -R node:node /directus /directus/extensions /directus/uploads
 
