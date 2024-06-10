@@ -93,3 +93,7 @@ services:
         # Environment variables can also be defined in a file (for example `.env`):
         # env_file:
         #     - .env
+volumes:
+    database_data:
+    uploads_data:
+    extensions_data:
