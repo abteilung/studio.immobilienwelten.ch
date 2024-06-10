@@ -9,9 +9,6 @@ RUN apk add --no-cache tzdata
 # Set the timezone
 RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" > /etc/timezone
 
-# Remove File from the image
-RUN rm -rf /entrypoint.sh
-
 # Ensure directories exist and have correct permissions
 # RUN mkdir -p /directus /directus/database /directus/extensions /directus/uploads && \
 #     chmod -R 775 /directus /directus/database /directus/extensions /directus/uploads && \
