@@ -1,16 +1,16 @@
 version: '3'
 services:
-    nginx:
-        container_name: immow24-nginx
-        image: nginx:1.21
-        build:
-            context: .
-            dockerfile: Dockerfile.nginx
-        ports:
-            - '94:80'
-        restart: always
-        depends_on:
-            - directus
+    # nginx:
+    #     container_name: immow24-nginx
+    #     image: nginx:1.21
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile.nginx
+    #     ports:
+    #         - '94:80'
+    #     restart: always
+    #     depends_on:
+    #         - directus
 
     database:
         container_name: immow24-database
