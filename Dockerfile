@@ -11,24 +11,19 @@ RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" 
 
 # Switch back to the original user
 USER node
-# FROM directus/directus:10.10.5
-# USER root
-# RUN corepack enable \
-#   && corepack prepare pnpm@8.1.1 --activate \
-#   # Currently required, we'll probably address this in the base image in future release
-#   && chown -R node:node /directus /directus/database /directus/extensions /directus/uploads
 
 
-# # USER node
-# # RUN pnpm install directus-extension-group-modal-interface directus-extension-api-trigger-interface directus-extension-board-layout directus-extension-computed-interface directus-extension-grid-layout directus-extension-inline-form-interface
+# Switch to root user to copy init script and set permissions
+USER root
 
-# # Try out another time:
-# # directus-extension-seo // not working as of now. Wait for update > 1.3.2
-# # directus-extension-flow2pdf // not needed for now
+# Copy the initialization script
+COPY init-db.sh /docker-entrypoint-initdb.d/
 
-# FROM directus/directus:10.10.7
-# USER root
-# RUN apt-get update && apt-get install -y tzdata
-# ENV TZ=Europe/Zurich
-# RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# Change permissions for the script
+RUN chmod 755 /docker-entrypoint-initdb.d/init-db.sh
 
+# Expose the PostgreSQL port (if necessary, depending on your setup)
+EXPOSE 5432
+
+# Switch back to the original user
+USER node
