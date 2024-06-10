@@ -4,7 +4,7 @@ services:
         container_name: immow24-nginx
         image: nginx:1.21
         build:
-            context: ./
+            context: .
             dockerfile: Dockerfile.nginx
         ports:
             - '94:80'
@@ -33,7 +33,7 @@ services:
             - 8060:8055
         container_name: immow24-directus
         build:
-            context: ./
+            context: .
             dockerfile: Dockerfile
         image: directus/directus:10.12
         volumes:
