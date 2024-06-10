@@ -1,10 +1,15 @@
-
-# Create directory for ngingx configuration
-# Start from the official nginx image
+# Dockerfile.nginx
 FROM nginx:1.21
 
-# Create the necessary directory for nginx.conf
+# Create the necessary directory
 RUN mkdir -p /etc/nginx/conf.d
 
-# Copy the local nginx.conf to the container
+# Copy your NGINX configuration file
 COPY ./nginx.conf /etc/nginx/nginx.conf
+# COPY ./conf.d/ /etc/nginx/conf.d/
+
+# Expose port 80
+EXPOSE 80
+
+# Start NGINX
+CMD ["nginx", "-g", "daemon off;"]

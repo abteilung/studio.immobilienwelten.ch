@@ -1,42 +1,41 @@
 version: '3'
 services:
     nginx:
-        container_name: entla24-nginx
+        container_name: immw24-nginx
         image: nginx:1.21
         build:
-            context: .
+            context: ./
             dockerfile: Dockerfile.nginx
         ports:
-            - '93:80'
+            - '94:80'
         restart: always
         depends_on:
             - directus
-            - umami
 
     database:
-        container_name: entla24-database
+        container_name: immw24-database
         image: postgis/postgis:13-master
         volumes:
             - ./data/database:/var/lib/postgresql/data
         environment:
-            POSTGRES_USER: 'directus'
-            POSTGRES_PASSWORD: 'directus'
-            POSTGRES_DB: 'directus'
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
         ports:
-            - 5103:5432
+            - 5104:5432
 
     cache:
-        container_name: entla24-cache
+        container_name: immw24-cache
         image: redis:7
 
     directus:
         ports:
-            - 8059:8055
-        container_name: entla24-directus
+            - 8060:8055
+        container_name: immw24-directus
         build:
-            context: .
+            context: ./
             dockerfile: Dockerfile
-        image: directus/directus:10.11.2
+        image: directus/directus:10.12.0
         volumes:
             - ./uploads:/directus/uploads
             - ./extensions:/directus/extensions
@@ -44,11 +43,11 @@ services:
             - cache
             - database
         environment:
-            KEY: '5d861b25-5699-a15e-93aa-c40b1922530e'
-            SECRET: '6187b164-b55b-c252-a1cd-c85e263022c4'
+            KEY: '5db28615-6599-1a5e-9a3a-c41920b2530e'
+            SECRET: '67b18164-bb55-c225-ad1c-c263c402285e'
 
             # Activate websockets
-            WEBSOCKETS_ENABLED: 'true'
+            WEBSOCKETS_ENABLED: 'false'
 
             # Get vrom environment variable
             EMAIL_TRANSPORT: ${EMAIL_TRANSPORT}
@@ -67,9 +66,9 @@ services:
             DB_CLIENT: 'pg'
             DB_HOST: 'database'
             DB_PORT: '5432'
-            DB_DATABASE: 'directus'
-            DB_USER: 'directus'
-            DB_PASSWORD: 'directus'
+            DB_DATABASE: ${DB_DATABASE}
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
 
             CACHE_ENABLED: true
             # Clear Cache if data is altered or added
@@ -86,47 +85,6 @@ services:
             # (see https://docs.directus.io/self-hosted/config-options#general)
             PUBLIC_URL: ${PUBLIC_URL}
             CORS_ENABLED: true
-
-    umami:
-        container_name: entla24-umami
-        image: ghcr.io/umami-software/umami:postgresql-latest
-        ports:
-            - 3034:3000
-        environment:
-            DATABASE_URL: postgresql://umami:umami@umamidb:5432/umami
-            DATABASE_TYPE: postgresql
-            APP_SECRET: bR4xVmRn0KM7asF0yhhQA0psJ9qpAInq
-        depends_on:
-            umamidb:
-                condition: service_healthy
-        restart: always
-        healthcheck:
-            test: ['CMD-SHELL', 'curl http://localhost:3000/api/heartbeat']
-            interval: 5s
-            timeout: 5s
-            retries: 5
-
-    umamidb:
-        container_name: entla24-umamidb
-        image: postgres:15-alpine
-        environment:
-            POSTGRES_DB: umami
-            POSTGRES_USER: umami
-            POSTGRES_PASSWORD: umami
-        volumes:
-            - umamidb-data:/var/lib/postgresql/data
-        restart: always
-        healthcheck:
-            test:
-                [
-                    'CMD-SHELL',
-                    'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}',
-                ]
-            interval: 5s
-            timeout: 5s
-
-volumes:
-    umamidb-data:
 
         # Environment variables can also be defined in a file (for example `.env`):
         # env_file:
