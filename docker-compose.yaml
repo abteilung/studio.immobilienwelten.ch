@@ -1,7 +1,7 @@
 version: '3'
 services:
     nginx:
-        container_name: immw24-nginx
+        container_name: immow24-nginx
         image: nginx:1.21
         build:
             context: ./
@@ -13,7 +13,7 @@ services:
             - directus
 
     database:
-        container_name: immw24-database
+        container_name: immow24-database
         image: postgis/postgis:13-master
         volumes:
             - ./data/database:/var/lib/postgresql/data
@@ -25,13 +25,13 @@ services:
             - 5104:5432
 
     cache:
-        container_name: immw24-cache
+        container_name: immow24-cache
         image: redis:7
 
     directus:
         ports:
             - 8060:8055
-        container_name: immw24-directus
+        container_name: immow24-directus
         build:
             context: ./
             dockerfile: Dockerfile
