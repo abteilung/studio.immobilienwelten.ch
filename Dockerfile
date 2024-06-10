@@ -12,9 +12,10 @@ RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" 
 # Ensure directories exist
 RUN mkdir -p /directus/extensions /directus/uploads
 
+# Switch back to the original user
+USER node
+
 # Set permissions
 RUN chmod -R 775 /directus/extensions /directus/uploads
 RUN chown -R node:node /directus/extensions /directus/uploads
 
-# Switch back to the original user
-USER node
