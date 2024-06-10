@@ -17,18 +17,3 @@ RUN cp /usr/share/zoneinfo/Europe/Zurich /etc/localtime && echo "Europe/Zurich" 
     
 # Switch back to the original user
 USER node
-
-# Switch to root user to copy init script and set permissions
-USER root
-
-# Copy the initialization script
-COPY init-db.sh /docker-entrypoint-initdb.d/
-
-# Change permissions for the script
-RUN chmod 755 /docker-entrypoint-initdb.d/init-db.sh
-
-# Expose the PostgreSQL port (if necessary, depending on your setup)
-EXPOSE 5432
-
-# Switch back to the original user
-USER node
