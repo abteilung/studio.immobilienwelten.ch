@@ -1,6 +1,6 @@
 version: '3'
 services:
-    nginx:
+    proxy:
         container_name: immow24-nginx
         image: nginx:1.21
         build:
