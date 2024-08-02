@@ -87,3 +87,13 @@ services:
         # Environment variables can also be defined in a file (for example `.env`):
         # env_file:
         #     - .env
+        healthcheck:
+            test:
+                - CMD
+                - wget
+                - '-q'
+                - '--spider'
+                - 'http://127.0.0.1:8055/server/health'
+            interval: 60s
+            timeout: 10s
+            retries: 5
