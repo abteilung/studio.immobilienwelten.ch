@@ -43,7 +43,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: directus/directus:10.13
+    image: directus/directus:11.13
     volumes:
       - ./uploads:/directus/uploads
       - ./extensions:/directus/extensions
