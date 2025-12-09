@@ -103,7 +103,7 @@ services:
         - wget
         - "-q"
         - "--spider"
-        - "http://127.0.0.1:8055/server/health"
-      interval: 60s
+        - "http://127.0.0.1:8055/server/ping"
+      interval: 30s
       timeout: 10s
       retries: 5
